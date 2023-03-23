@@ -1,0 +1,47 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type OwnerEntity {
+  id: ID!
+  name: String!
+  pets: [PetEntity!]
+}
+
+type PetEntity {
+  id: ID!
+  name: String!
+  type: String
+  ownerId: String!
+  owner: OwnerEntity!
+  getOwnerResolveField: OwnerEntity!
+}
+
+type Query {
+  getPets: [PetEntity!]!
+  getPet(id: String!): PetEntity!
+  getOwners: [OwnerEntity!]!
+  getOwner(id: String!): OwnerEntity!
+}
+
+type Mutation {
+  createPet(createPetInput: CreatePetInput!): PetEntity!
+  createOwner(createOwnerInput: CreateOwnerInput!): OwnerEntity!
+  updateOwner(updateOwnerInput: UpdateOwnerInput!): OwnerEntity!
+  removeOwner(id: Int!): OwnerEntity!
+}
+
+input CreatePetInput {
+  name: String!
+  type: String
+  ownerId: String!
+}
+
+input CreateOwnerInput {
+  name: String!
+}
+
+input UpdateOwnerInput {
+  name: String
+  id: Int!
+}
