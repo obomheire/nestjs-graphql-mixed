@@ -28,6 +28,5 @@ export class PetEntity {
 
   @ManyToOne(() => OwnerEntity, (owner) => owner.pets)
   @Field(() => OwnerEntity)
-  @Column()
   owner: OwnerEntity;
 }

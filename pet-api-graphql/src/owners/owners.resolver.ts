@@ -23,13 +23,13 @@ export class OwnersResolver {
     return this.ownersService.getOwner(id);
   }
 
-  @Mutation(() => OwnerEntity)
-  updateOwner(@Args('updateOwnerInput') updateOwnerInput: UpdateOwnerInput) {
-    return this.ownersService.update(updateOwnerInput.id, updateOwnerInput);
-  }
+  // @Mutation(() => OwnerEntity)
+  // updateOwner(@Args('updateOwnerInput') updateOwnerInput: UpdateOwnerInput) {
+  //   return this.ownersService.update(updateOwnerInput.id, updateOwnerInput);
+  // }
 
-  @Mutation(() => OwnerEntity)
-  removeOwner(@Args('id', { type: () => Int }) id: number) {
-    return this.ownersService.remove(id);
-  }
+  // @Mutation(() => OwnerEntity)
+  // removeOwner(@Args('id', { type: () => Int }) id: number) {
+  //   return this.ownersService.remove(id);
+  // }
 }

@@ -20,6 +20,5 @@ export class OwnerEntity {
 
   @OneToMany(() => PetEntity, (pet) => pet.owner)
   @Field(() => [PetEntity], { nullable: true })
-  // @Column()
   pets?: PetEntity[];
 }

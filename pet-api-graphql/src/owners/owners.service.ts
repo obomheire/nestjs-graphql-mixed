@@ -29,11 +29,5 @@ export class OwnersService {
     return this.ownerRepository.findOneBy({ id });
   }
 
-  update(id: number, updateOwnerInput: UpdateOwnerInput) {
-    return `This action updates a #${id} owner`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} owner`;
-  }
+z
 }
