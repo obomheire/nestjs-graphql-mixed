@@ -29,9 +29,7 @@ export class PetsResolver {
   }
 
   @ResolveField(() => OwnerEntity)
-  async getOwnerResolveField(
-    @Parent() pet: PetEntity,
-  ): Promise<OwnerEntity> {
+  async owner(@Parent() pet: PetEntity): Promise<OwnerEntity> {
     return this.petsService.getOwnerResolveField(pet.ownerId);
   }
 }

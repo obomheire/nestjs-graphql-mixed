@@ -14,7 +14,6 @@ type PetEntity {
   type: String
   owner: OwnerEntity!
   ownerId: String!
-  getOwnerResolveField: OwnerEntity!
 }
 
 type Query {
