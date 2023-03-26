@@ -3,17 +3,17 @@
 # ------------------------------------------------------
 
 type OwnerEntity {
-  id: ID!
+  id: String!
   name: String!
   pets: [PetEntity!]
 }
 
 type PetEntity {
-  id: ID!
+  id: String!
   name: String!
   type: String
-  ownerId: String!
   owner: OwnerEntity!
+  ownerId: String!
   getOwnerResolveField: OwnerEntity!
 }
 

@@ -22,7 +22,9 @@ export class OwnersService {
   }
 
   getOwners(): Promise<OwnerEntity[]> {
-    return this.ownerRepository.find();
+    return this.ownerRepository.find({
+      relations: ['pets']
+    });
   }
 
   getOwner(id: string): Promise<OwnerEntity> {
