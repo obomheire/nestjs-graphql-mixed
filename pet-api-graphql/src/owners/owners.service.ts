@@ -31,5 +31,16 @@ export class OwnersService {
     return this.ownerRepository.findOneBy({ id });
   }
 
-z
+  // Updatde owner by id
+  async updateOwner(id: string, updateOwnerInput: UpdateOwnerInput): Promise<OwnerEntity> {
+    const owner = await this.ownerRepository.findOneBy({ id });
+    this.ownerRepository.merge(owner, updateOwnerInput);
+    return this.ownerRepository.save(owner);
+  }
+
+  // Delete owner by id
+  async removeOwner(id: string): Promise<OwnerEntity> {
+    const owner = await this.ownerRepository.findOneBy({ id });
+    return this.ownerRepository.remove(owner);
+  }
 }
