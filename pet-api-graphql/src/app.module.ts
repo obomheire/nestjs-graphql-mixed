@@ -16,16 +16,6 @@ import { OwnerEntity } from './owners/entities/owner.entity';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
-    // TypeOrmModule.forRoot({
-    //   type: 'mongodb',
-    //   url: 'mongodb://localhost:27017/pets-db',
-    //   synchronize: true,
-    //   useUnifiedTopology: true,
-    //   extra: {
-    //     writeConcern: { w: 'majority' },
-    //   },
-    //   entities: [PetEntity, OwnerEntity],
-    // }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -33,7 +23,7 @@ import { OwnerEntity } from './owners/entities/owner.entity';
       username: 'admin',
       password: 'Secret@123',
       database: 'testdb',
-      entities: ["dist/**/*.entity{.ts,.js}"],
+      entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
     PetsModule,

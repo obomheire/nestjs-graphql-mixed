@@ -1,4 +1,12 @@
-import { Resolver, Query, Mutation, Args, Int, ResolveField, Parent } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { PetsService } from './pets.service';
 import { PetEntity } from './entities/pet.entity';
 import { CreatePetInput } from './dto/create-pet.input';
@@ -31,5 +39,21 @@ export class PetsResolver {
   @ResolveField(() => OwnerEntity)
   async owner(@Parent() pet: PetEntity): Promise<OwnerEntity> {
     return this.petsService.getOwnerResolveField(pet.ownerId);
+  }
+
+  // Update pet by id
+  @Mutation(() => PetEntity)
+  async updatePet(
+    @Args('updatePetInput') updatePetInput: UpdatePetInput,
+  ): Promise<PetEntity> {
+    return this.petsService.updatePet(updatePetInput.id, updatePetInput);
+  }
+
+  // Delete pet by id
+  @Mutation(() => PetEntity)
+  async removePet(
+    @Args('id', { type: () => String }) id: string,
+  ): Promise<PetEntity> {
+    return this.petsService.removePet(id);
   }
 }

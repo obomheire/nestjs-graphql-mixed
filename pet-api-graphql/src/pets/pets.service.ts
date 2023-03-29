@@ -35,4 +35,20 @@ export class PetsService {
   async getOwnerResolveField(ownerId: string): Promise<OwnerEntity> {
     return this.ownersService.getOwner(ownerId);
   }
+
+  //Updatde pet by id
+  async updatePet(
+    id: string,
+    updatePetInput: UpdatePetInput,
+  ): Promise<PetEntity> {
+    const pet = await this.petRepository.findOneBy({ id });
+    this.petRepository.merge(pet, updatePetInput);
+    return this.petRepository.save(pet);
+  }
+
+  //Delete pet by id
+  async removePet(id: string): Promise<PetEntity> {
+    const pet = await this.petRepository.findOneBy({ id });
+    return this.petRepository.remove(pet);
+  }
 }
