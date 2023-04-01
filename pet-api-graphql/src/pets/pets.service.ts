@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePetInput } from './dto/create-pet.input';
@@ -17,23 +17,39 @@ export class PetsService {
   ) {}
 
   async createPet(createPetInput: CreatePetInput): Promise<PetEntity> {
-    const newPet = this.petRepository.create({
-      ...createPetInput,
-      id: uuid(),
-    });
-    return this.petRepository.save(newPet);
+    try {
+      const newPet = this.petRepository.create({
+        ...createPetInput,
+        id: uuid(),
+      });
+      return this.petRepository.save(newPet);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   async getPets(): Promise<PetEntity[]> {
-    return this.petRepository.find();
+    try {
+      return this.petRepository.find();
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   async getPet(id: string): Promise<PetEntity> {
-    return this.petRepository.findOneBy({ id });
+    try {
+      return this.petRepository.findOneBy({ id });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   async getOwnerResolveField(ownerId: string): Promise<OwnerEntity> {
-    return this.ownersService.getOwner(ownerId);
+    try {
+      return this.ownersService.getOwner(ownerId);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   //Updatde pet by id
@@ -41,14 +57,22 @@ export class PetsService {
     id: string,
     updatePetInput: UpdatePetInput,
   ): Promise<PetEntity> {
-    const pet = await this.petRepository.findOneBy({ id });
-    this.petRepository.merge(pet, updatePetInput);
-    return this.petRepository.save(pet);
+    try {
+      const pet = await this.petRepository.findOneBy({ id });
+      this.petRepository.merge(pet, updatePetInput);
+      return this.petRepository.save(pet);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   //Delete pet by id
   async removePet(id: string): Promise<PetEntity> {
-    const pet = await this.petRepository.findOneBy({ id });
+    try {
+      const pet = await this.petRepository.findOneBy({ id });
     return this.petRepository.remove(pet);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 }

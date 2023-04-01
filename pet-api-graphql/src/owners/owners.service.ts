@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateOwnerInput } from './dto/create-owner.input';
@@ -13,27 +13,39 @@ export class OwnersService {
     private ownerRepository: Repository<OwnerEntity>,
   ) {}
   async createOwner(createOwnerInput: CreateOwnerInput): Promise<OwnerEntity> {
-    const newOwner = this.ownerRepository.create({
-      ...createOwnerInput,
-      id: uuid(),
-    });
+    try {
+      const newOwner = this.ownerRepository.create({
+        ...createOwnerInput,
+        id: uuid(),
+      });
 
-    return this.ownerRepository.save(newOwner);
+      return this.ownerRepository.save(newOwner);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   getOwners(): Promise<OwnerEntity[]> {
-    return this.ownerRepository.find({
-      relations: ['pets'],
-    });
+    try {
+      return this.ownerRepository.find({
+        relations: ['pets'],
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   getOwner(id: string): Promise<OwnerEntity> {
-    return this.ownerRepository.findOne({
-      where: {
-        id,
-      },
-      relations: ['pets'],
-    });
+    try {
+      return this.ownerRepository.findOne({
+        where: {
+          id,
+        },
+        relations: ['pets'],
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   // Updatde owner by id
@@ -41,14 +53,22 @@ export class OwnersService {
     id: string,
     updateOwnerInput: UpdateOwnerInput,
   ): Promise<OwnerEntity> {
-    const owner = await this.ownerRepository.findOneBy({ id });
-    this.ownerRepository.merge(owner, updateOwnerInput);
-    return this.ownerRepository.save(owner);
+    try {
+      const owner = await this.ownerRepository.findOneBy({ id });
+      this.ownerRepository.merge(owner, updateOwnerInput);
+      return this.ownerRepository.save(owner);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   // Delete owner by id
   async removeOwner(id: string): Promise<OwnerEntity> {
-    const owner = await this.ownerRepository.findOneBy({ id });
-    return this.ownerRepository.remove(owner);
+    try {
+      const owner = await this.ownerRepository.findOneBy({ id });
+      return this.ownerRepository.remove(owner);
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 }
