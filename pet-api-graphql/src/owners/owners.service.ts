@@ -23,16 +23,24 @@ export class OwnersService {
 
   getOwners(): Promise<OwnerEntity[]> {
     return this.ownerRepository.find({
-      relations: ['pets']
+      relations: ['pets'],
     });
   }
 
   getOwner(id: string): Promise<OwnerEntity> {
-    return this.ownerRepository.findOneBy({ id });
+    return this.ownerRepository.findOne({
+      where: {
+        id,
+      },
+      relations: ['pets'],
+    });
   }
 
   // Updatde owner by id
-  async updateOwner(id: string, updateOwnerInput: UpdateOwnerInput): Promise<OwnerEntity> {
+  async updateOwner(
+    id: string,
+    updateOwnerInput: UpdateOwnerInput,
+  ): Promise<OwnerEntity> {
     const owner = await this.ownerRepository.findOneBy({ id });
     this.ownerRepository.merge(owner, updateOwnerInput);
     return this.ownerRepository.save(owner);
